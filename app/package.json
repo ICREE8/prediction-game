@@ -24,6 +24,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@rainbow-me/rainbowkit": "^1.0.9",
     "@types/react-gtm-module": "^2.0.1",
+    "@walletconnect/web3wallet": "^1.12.3",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",

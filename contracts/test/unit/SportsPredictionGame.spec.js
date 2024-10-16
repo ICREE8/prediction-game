@@ -317,6 +317,22 @@ describe("SportsPredictionGame Unit Tests", async function () {
       await expect(() => sportsPredictionGame.claim(gameId, false)).to.changeEtherBalance(owner, wager)
     })
 
+    // it("should split winnings between results", async () => {
+    //   await sportsPredictionGame.registerAndPredict(sportId, externalId, startTime, result, {
+    //     value: wager,
+    //   })
+    //   await sportsPredictionGame.connect(users[0]).predict(gameId, result, { value: wager })
+    //   await sportsPredictionGame.connect(users[1]).predict(gameId, Result.Away, { value: wager })
+    //   await sportsPredictionGame.connect(users[2]).predict(gameId, Result.Away, { value: wager })
+
+    //   await resolveGame(sportsPredictionGame, mockFunctionsOracle, gameId, result, delay)
+
+    //   await expect(() => sportsPredictionGame.claim(gameId, false)).to.changeEtherBalance(owner, wager.mul(2))
+    //   await expect(() => sportsPredictionGame.connect(users[0]).claim(gameId, false)).to.changeEtherBalance(
+    //     users[0],
+    //     wager.mul(2)
+    //   )
+    // })
     it("should split winnings between results", async () => {
       await sportsPredictionGame.registerAndPredict(sportId, externalId, startTime, result, {
         value: wager,
@@ -327,12 +343,18 @@ describe("SportsPredictionGame Unit Tests", async function () {
 
       await resolveGame(sportsPredictionGame, mockFunctionsOracle, gameId, result, delay)
 
-      await expect(() => sportsPredictionGame.claim(gameId, false)).to.changeEtherBalance(owner, wager.mul(2))
-      await expect(() => sportsPredictionGame.connect(users[0]).claim(gameId, false)).to.changeEtherBalance(
+      // Ensure the contract has a signer for the claim function
+      const sportsPredictionGameWithOwner = sportsPredictionGame.connect(owner)
+      const sportsPredictionGameWithUser0 = sportsPredictionGame.connect(users[0])
+
+      await expect(() => sportsPredictionGameWithOwner.claim(gameId, false)).to.changeEtherBalance(owner, wager.mul(2))
+      await expect(() => sportsPredictionGameWithUser0.claim(gameId, false)).to.changeEtherBalance(
         users[0],
         wager.mul(2)
       )
     })
+
+
 
     it("should combine winnings if user has multiple predictions", async () => {
       await sportsPredictionGame.registerAndPredict(sportId, externalId, startTime, result, {

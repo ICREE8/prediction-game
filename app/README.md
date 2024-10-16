@@ -6,6 +6,9 @@ It contains the frontend for the sports prediction game and additional backend f
 
 ## Quick Start
 
+REMEMBER! complete /contract side of the project first
+
+
 Install all dependencies:
 
 ```bash
